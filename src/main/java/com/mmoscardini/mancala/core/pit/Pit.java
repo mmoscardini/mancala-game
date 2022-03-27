@@ -2,16 +2,33 @@ package com.mmoscardini.mancala.core.pit;
 
 import com.mmoscardini.mancala.core.player.Player;
 
-import java.nio.charset.Charset;
-import java.util.Random;
-
 public class Pit {
     private Integer stones;
     private Player player;
+    private Pit nextPit;
+    private Pit opposite;
 
-    public Pit(Integer stones) {
+    public Pit(Integer stones, Player player, Pit nextPit, Pit opposite) {
         this.stones = stones;
-        this.player = generateRandomPlayer();
+        this.player = player;
+        this.nextPit = nextPit;
+        this.opposite = opposite;
+    }
+
+    public Pit getNextPit() {
+        return nextPit;
+    }
+
+    public void setNextPit(Pit nextPit) {
+        this.nextPit = nextPit;
+    }
+
+    public Pit getOpposite() {
+        return opposite;
+    }
+
+    public void setOpposite(Pit opposite) {
+        this.opposite = opposite;
     }
 
     public Player getPlayer() {
@@ -30,13 +47,5 @@ public class Pit {
         this.stones = stones;
     }
 
-    private Player generateRandomPlayer() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
 
-        String playerName = "player_" + generatedString;
-
-        return new Player(playerName);
-    }
 }
