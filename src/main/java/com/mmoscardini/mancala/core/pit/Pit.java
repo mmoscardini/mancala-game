@@ -3,14 +3,20 @@ package com.mmoscardini.mancala.core.pit;
 import com.mmoscardini.mancala.core.player.Player;
 
 public class Pit {
+    private Integer id;
     private Integer stones;
     private Player player;
     private boolean isBigPit;
     private Pit nextPit;
     private Pit opposite;
 
-    public Pit(boolean isBigPit) {
-        this.stones = 6;
+    public Pit(Integer id, boolean isBigPit) {
+        this.id = id;
+        if (isBigPit) {
+            this.stones = 0;
+        } else {
+            this.stones = 6;
+        }
         this.isBigPit = isBigPit;
     }
 
@@ -20,6 +26,18 @@ public class Pit {
         this.isBigPit = isBigPit;
         this.nextPit = nextPit;
         this.opposite = opposite;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setBigPit(boolean bigPit) {
+        isBigPit = bigPit;
     }
 
     public Pit getNextPit() {
