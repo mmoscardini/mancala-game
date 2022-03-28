@@ -35,16 +35,30 @@ table.board {
 </style>
 </head>
 <body>
-<h1>Mankala game<span th:text="${gameId}"></span></h1>
+<h1>Mankala game <span th:text="${gameId}"></span></h1>
 
 <table class="board">
     <tr  class="pitrow">
-        <td th:text="${p1_bigpit.stones}" class="bigpit" rowspan="2"></td>
-        <td th:each="pit : ${p1_pits}"  th:text="${pit.stones}" class="pit"></td>
-        <td th:text="${p2_bigpit.stones}" class="bigpit" rowspan="2"></td>
+        <td class="bigpit" rowspan="2">
+            <p th:text="${p2_bigpit.stones}"></p>
+        </td>
+        <td th:each="pit : ${p2_pits}" class="pit">
+            <form th:action="@{/game/{gameId}/{pitId}(gameId=${gameId}, pitId=${pit.id})}" th:method="post">
+                <p th:text="${pit.stones}"></p>
+                <input type="submit" value="make move" />
+            </form>
+        </td>
+        <td class="bigpit" rowspan="2">
+            <p th:text="${p1_bigpit.stones}"></p>
+        </td>
     </tr>
     <tr  class="pitrow">
-        <td th:each="pit : ${p2_pits}"  th:text="${pit.stones}" class="pit"></td>
+        <td th:each="pit : ${p1_pits}" class="pit">
+            <form th:action="@{/game/{gameId}/{pitId}(gameId=${gameId}, pitId=${pit.id})}" th:method="post">
+                <p th:text="${pit.stones}"></p>
+                <input type="submit" value="make move" />
+            </form>
+        </td>
     </tr>
   </table>
 

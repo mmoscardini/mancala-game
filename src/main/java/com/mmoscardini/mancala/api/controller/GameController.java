@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
@@ -32,7 +33,7 @@ public class GameController {
 
         Board board = gameplayController.getBoard();
         Pit[] p1Pits = {board.getPit(1), board.getPit(2), board.getPit(3), board.getPit(4), board.getPit(5), board.getPit(6)};
-        Pit[] p2Pits = {board.getPit(7), board.getPit(8), board.getPit(9), board.getPit(10), board.getPit(11), board.getPit(12)};
+        Pit[] p2Pits = {board.getPit(12), board.getPit(11), board.getPit(10), board.getPit(9), board.getPit(8), board.getPit(7)};
 
         System.out.println("pit1 " + board.getBigPit(1));
 
@@ -44,14 +45,16 @@ public class GameController {
         return "game";
     }
 
-    @PutMapping("/game/{gameId}/{pitId}")
+    @PostMapping("/game/{gameId}/{pitId}")
     public String makeMove(@PathVariable String gameId, @PathVariable Integer pitId, Model model) {
         GameplayController gameplayController = GameplayControllerFactory.getGameplayController(gameId);
         gameplayController.setup();
 
+        gameplayController.makeMove(pitId);
+
         Board board = gameplayController.getBoard();
         Pit[] p1Pits = {board.getPit(1), board.getPit(2), board.getPit(3), board.getPit(4), board.getPit(5), board.getPit(6)};
-        Pit[] p2Pits = {board.getPit(7), board.getPit(8), board.getPit(9), board.getPit(10), board.getPit(11), board.getPit(12)};
+        Pit[] p2Pits = {board.getPit(12), board.getPit(11), board.getPit(10), board.getPit(9), board.getPit(8), board.getPit(7)};
 
         model.addAttribute("p1_pits", p1Pits);
         model.addAttribute("p2_pits", p2Pits);
