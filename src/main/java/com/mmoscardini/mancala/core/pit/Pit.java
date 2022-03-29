@@ -5,7 +5,7 @@ import com.mmoscardini.mancala.core.player.Player;
 public class Pit {
     private Integer id;
     private Integer stones;
-    private Player player;
+    private Player owner;
     private boolean isBigPit;
     private Pit nextPit;
     private Pit opposite;
@@ -20,9 +20,9 @@ public class Pit {
         this.isBigPit = isBigPit;
     }
 
-    public Pit(Integer stones, Player player, boolean isBigPit, Pit nextPit, Pit opposite) {
+    public Pit(Integer stones, Player owner, boolean isBigPit, Pit nextPit, Pit opposite) {
         this.stones = stones;
-        this.player = player;
+        this.owner = owner;
         this.isBigPit = isBigPit;
         this.nextPit = nextPit;
         this.opposite = opposite;
@@ -56,12 +56,12 @@ public class Pit {
         this.opposite = opposite;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Player getOwner() {
+        return owner;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
     public Integer getStones() {

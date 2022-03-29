@@ -3,7 +3,6 @@ package com.mmoscardini.mancala.core.gameplayController;
 import com.mmoscardini.mancala.core.board.Board;
 import com.mmoscardini.mancala.core.pit.Pit;
 import com.mmoscardini.mancala.core.player.Player;
-import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
@@ -52,26 +51,18 @@ public class GameplayController {
     }
 
     public Board makeMove(Integer pitId) {
-         if (!currentPlayer.getOwnedPits().contains(pitId)){
-            System.out.println("It's not this players turn");
+         if (!isValidPit(pitId)){
             return board;
         }
 
         Pit initialPit = board.getPit(pitId);
         Integer stones = board.pickUpStones(initialPit);
-
-        if (stones == 0) {
-            System.out.println("Cannot pick stones from empty pit");
-            return board;
-        }
-
         Pit currentPit = initialPit;
 
         while (stones > 0) {
             currentPit = currentPit.getNextPit();
 
-            if (currentPit.isBigPit() && currentPit.getPlayer() != currentPlayer) {
-                //skip enemies big pit
+            if (isEnemyBigPit(currentPit)) {
                 continue;
             }
 
@@ -79,12 +70,12 @@ public class GameplayController {
             stones--;
         }
 
-        if (currentPit.getStones() == 1 && !currentPit.isBigPit()) {
+        if (shouldStealStones(currentPit)) {
             System.out.println("STEALING STONES IN PIT " + currentPit.getId());
             board.stealOpositeStones(currentPlayer, currentPit);
         }
 
-        if (!currentPlayer.getBigPit().equals(currentPit)) {
+        if (!isCurrentPlayerBigPit(currentPit)) {
             passTheTurn();
         }
 
@@ -100,6 +91,36 @@ public class GameplayController {
         currentPlayer = playerOne;
 
     }
+
+    private boolean shouldStealStones(Pit pit) {
+        return pit.getStones() == 1 && !pit.isBigPit();
+    }
+
+    private boolean isCurrentPlayerBigPit(Pit pit) {
+        return pit.isBigPit() && pit.getOwner() == currentPlayer;
+    }
+
+    private boolean isEnemyBigPit(Pit pit) {
+        return pit.isBigPit() && pit.getOwner() != currentPlayer;
+    }
+
+    private boolean isValidPit(Integer pitId){
+        if (!currentPlayer.getOwnedPits().contains(pitId)){
+            System.out.println("User ".concat(currentPlayer.getName()).concat("Cannot choose this pit"));
+            return false;
+        }
+
+        Integer stones = board.getPit(pitId).getStones();
+
+        if (stones == 0) {
+            System.out.println("Cannot pick stones from empty pit");
+            return false;
+        }
+
+        return true;
+    }
+
+}
 
     private Player generateRandomPlayer() {
         byte[] array = new byte[7]; // length is bounded by 7

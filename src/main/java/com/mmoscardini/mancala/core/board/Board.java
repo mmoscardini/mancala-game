@@ -22,21 +22,21 @@ public class Board {
 
     public Board(Player player1, Player player2) {
         //set players
-        bigPit1.setPlayer(player1);
-        pit1.setPlayer(player1);
-        pit2.setPlayer(player1);
-        pit3.setPlayer(player1);
-        pit4.setPlayer(player1);
-        pit5.setPlayer(player1);
-        pit6.setPlayer(player1);
+        bigPit1.setOwner(player1);
+        pit1.setOwner(player1);
+        pit2.setOwner(player1);
+        pit3.setOwner(player1);
+        pit4.setOwner(player1);
+        pit5.setOwner(player1);
+        pit6.setOwner(player1);
 
-        pit7.setPlayer(player2);
-        pit8.setPlayer(player2);
-        pit9.setPlayer(player2);
-        pit10.setPlayer(player2);
-        pit11.setPlayer(player2);
-        pit12.setPlayer(player2);
-        bigPit2.setPlayer(player2);
+        pit7.setOwner(player2);
+        pit8.setOwner(player2);
+        pit9.setOwner(player2);
+        pit10.setOwner(player2);
+        pit11.setOwner(player2);
+        pit12.setOwner(player2);
+        bigPit2.setOwner(player2);
 
         //set players big pit
         player1.setBigPit(bigPit1);
@@ -86,13 +86,11 @@ public class Board {
     }
 
     public Pit getBigPit(Integer id) {
-        switch (id) {
-            case 1:
-                return bigPit1;
-            case 2:
-                return bigPit2;
-            default:
-                return null;
+        try {
+            return (Pit) Board.class.getDeclaredField("bigPit"+id.toString()).get(this);
+        } catch (NoSuchFieldException |  IllegalAccessException e) {
+            System.out.println("NO BIG PIT WITH ID " + id + "/n" + e.getMessage());
+            return  null;
         }
     }
 
