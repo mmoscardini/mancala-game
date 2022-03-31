@@ -2,7 +2,7 @@ package com.mmoscardini.mancala.core.gameplayController;
 
 import java.util.HashMap;
 
-public class GameplayControllerFactory {
+public class GameplayControllerSingletonFactory {
     private static HashMap<String, GameplayController> gameplayControllers = new HashMap<>();
 
     public static GameplayController getGameplayController(String gameId) {
@@ -11,7 +11,6 @@ public class GameplayControllerFactory {
         }
 
         GameplayController gameplayController = new GameplayController(gameId);
-        gameplayController.setup();
 
         gameplayControllers.put(gameId, gameplayController);
         return gameplayController;

@@ -6,8 +6,7 @@ import com.mmoscardini.mancala.core.player.Player;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -26,28 +25,22 @@ public class GameplayController {
         this.gameId = gameId;
     }
 
-    public void setup(Player playerOne, Player playerTwo) {
+    public void setup(Player playerOne, Player playerTwo, Integer stones) {
         currentPlayer = playerOne;
-        board = new Board(playerOne, playerTwo);
-
-        System.out.println(board.getPit(1));
+        board = new Board(playerOne, playerTwo, stones);
 
         setupCompleted = true;
     }
 
-    public void setup() {
+    public void defaultSetup() {
         if(setupCompleted) {
             return;
         }
 
-        playerOne = generateRandomPlayer();
-        playerTwo = generateRandomPlayer();
-        Integer[] pitIdsP1 = {1,2,3,4,5,6};
-        Integer[] pitIdsP2 = {7,8,9,10,11,12};
-        playerOne.setOwnedPits(new ArrayList<>(Arrays.asList(pitIdsP1)));
-        playerTwo.setOwnedPits(new ArrayList<>(Arrays.asList(pitIdsP2)));
+        playerOne = generateRandomPlayer(1);
+        playerTwo = generateRandomPlayer(2);
 
-        setup(playerOne, playerTwo);
+        setup(playerOne, playerTwo, 6);
     }
 
     public Board makeMove(Integer pitId) {
@@ -106,7 +99,7 @@ public class GameplayController {
 
     private boolean isValidPit(Integer pitId){
         if (!currentPlayer.getOwnedPits().contains(pitId)){
-            System.out.println("User ".concat(currentPlayer.getName()).concat("Cannot choose this pit"));
+            System.out.println("Player ".concat(currentPlayer.getName()).concat("Cannot choose this pit"));
             return false;
         }
 
@@ -120,19 +113,40 @@ public class GameplayController {
         return true;
     }
 
-}
-
-    private Player generateRandomPlayer() {
+    private Player generateRandomPlayer(Integer playerId) {
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
         String generatedString = new String(array, Charset.forName("UTF-8"));
 
         String playerName = "player_" + generatedString;
 
-        return new Player(playerName);
+        return new Player(playerId, playerName);
     }
 
     public Board getBoard() {
         return board;
+    }
+
+    public boolean hasGameEnded() {
+        Pit initialPit = board.getPit(1);
+        Pit currentPit = initialPit;
+        do {
+            if (!currentPit.isBigPit() && currentPit.getStones() != 0) {
+                return false;
+            }
+            currentPit = currentPit.getNextPit();
+        } while (!Objects.equals(currentPit, initialPit));
+
+        return true;
+    }
+
+    public Player getPlayer(Integer playerId) {
+        if (playerId == 1) {
+            return playerOne;
+        } else if (playerId == 2) {
+            return playerTwo;
+        }
+
+        return null;
     }
 }

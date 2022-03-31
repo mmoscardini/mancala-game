@@ -4,7 +4,7 @@
 <!-- <script src="jquery-3.6.0.min.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<title>Makala game - menu</title>
+<title>Mmoscardini Makala game - gameplay</title>
 
 <style>
 table.board {
@@ -43,7 +43,7 @@ table.board {
             <p th:text="${p2_bigpit.stones}"></p>
         </td>
         <td th:each="pit : ${p2_pits}" class="pit">
-            <form th:action="@{/game/{gameId}/{pitId}(gameId=${gameId}, pitId=${pit.id})}" th:method="post">
+            <form th:action="@{/game/{gameId}/makeMove/{pitId}(gameId=${gameId}, pitId=${pit.id})}" th:method="post">
                 <p th:text="${pit.stones}"></p>
                 <input type="submit" value="make move" />
             </form>
@@ -54,7 +54,7 @@ table.board {
     </tr>
     <tr  class="pitrow">
         <td th:each="pit : ${p1_pits}" class="pit">
-            <form th:action="@{/game/{gameId}/{pitId}(gameId=${gameId}, pitId=${pit.id})}" th:method="post">
+            <form th:action="@{/game/{gameId}/makeMove/{pitId}(gameId=${gameId}, pitId=${pit.id})}" th:method="post">
                 <p th:text="${pit.stones}"></p>
                 <input type="submit" value="make move" />
             </form>

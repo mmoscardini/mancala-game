@@ -20,7 +20,23 @@ public class Board {
     private Pit bigPit1  = new Pit(91, true);
     private Pit bigPit2 = new Pit(92, true);
 
-    public Board(Player player1, Player player2) {
+    public Board(Player player1, Player player2, Integer stones) {
+        //set stones
+        bigPit1.setStones(0);
+        bigPit2.setStones(0);
+        pit1.setStones(stones);
+        pit2.setStones(stones);
+        pit3.setStones(stones);
+        pit4.setStones(stones);
+        pit5.setStones(stones);
+        pit6.setStones(stones);
+        pit7.setStones(stones);
+        pit8.setStones(stones);
+        pit9.setStones(stones);
+        pit10.setStones(stones);
+        pit11.setStones(stones);
+        pit12.setStones(stones);
+
         //set players
         bigPit1.setOwner(player1);
         pit1.setOwner(player1);
