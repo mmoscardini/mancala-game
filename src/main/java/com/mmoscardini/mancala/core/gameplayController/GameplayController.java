@@ -75,6 +75,33 @@ public class GameplayController {
         return board;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public boolean hasGameEnded() {
+        Pit initialPit = board.getPit(1);
+        Pit currentPit = initialPit;
+        do {
+            if (!currentPit.isBigPit() && currentPit.getStones() != 0) {
+                return false;
+            }
+            currentPit = currentPit.getNextPit();
+        } while (!Objects.equals(currentPit, initialPit));
+
+        return true;
+    }
+
+    public Player getPlayer(Integer playerId) {
+        if (playerId == 1) {
+            return playerOne;
+        } else if (playerId == 2) {
+            return playerTwo;
+        }
+
+        return null;
+    }
+
     private void passTheTurn() {
         if (currentPlayer == playerOne) {
             currentPlayer = playerTwo;
@@ -121,32 +148,5 @@ public class GameplayController {
         String playerName = "player_" + generatedString;
 
         return new Player(playerId, playerName);
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public boolean hasGameEnded() {
-        Pit initialPit = board.getPit(1);
-        Pit currentPit = initialPit;
-        do {
-            if (!currentPit.isBigPit() && currentPit.getStones() != 0) {
-                return false;
-            }
-            currentPit = currentPit.getNextPit();
-        } while (!Objects.equals(currentPit, initialPit));
-
-        return true;
-    }
-
-    public Player getPlayer(Integer playerId) {
-        if (playerId == 1) {
-            return playerOne;
-        } else if (playerId == 2) {
-            return playerTwo;
-        }
-
-        return null;
     }
 }
