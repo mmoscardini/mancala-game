@@ -127,4 +127,13 @@ public class Board {
     }
 
 
+    public void collectRemainingStones() {
+        for (int i = 1; i <= 12 ; i++) {
+            Pit pit = getPit(i);
+            Player player = pit.getOwner();
+            Pit bigPit = player.getBigPit();
+            Integer stones = pickUpStones(pit);
+            bigPit.addStones(stones);
+        }
+    }
 }

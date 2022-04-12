@@ -57,8 +57,4 @@ public class GameService {
         gameplayController.defaultSetup();
     }
 
-    public void resetErrors(String gameId) {
-        GameplayController gameplayController = GameplayControllerSingletonFactory.getGameplayController(gameId);
-        gameplayController.resetErrors();
-    }
 }

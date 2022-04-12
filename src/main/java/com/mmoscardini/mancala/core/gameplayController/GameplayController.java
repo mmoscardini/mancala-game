@@ -42,7 +42,7 @@ public class GameplayController {
         playerTwo = new Player(2, "Player 2");
         actionsLog = new ArrayList<>();
 
-        setup(playerOne, playerTwo, 6);
+        setup(playerOne, playerTwo, 1);
     }
 
     public Board makeMove(Integer pitId) {
@@ -96,11 +96,15 @@ public class GameplayController {
         Pit currentPit = initialPit;
         do {
             if (!currentPit.isBigPit() && currentPit.getStones() != 0) {
+                System.out.println(currentPit.getId());
                 return false;
             }
             currentPit = currentPit.getNextPit();
         } while (!Objects.equals(currentPit, initialPit));
 
+
+        System.out.println("GAME HAS ENDED");
+        board.collectRemainingStones();
         return true;
     }
 
