@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class GameplayController {
@@ -92,20 +91,28 @@ public class GameplayController {
     }
 
     public boolean hasGameEnded() {
-        Pit initialPit = board.getPit(1);
-        Pit currentPit = initialPit;
-        do {
-            if (!currentPit.isBigPit() && currentPit.getStones() != 0) {
-                System.out.println(currentPit.getId());
-                return false;
+        boolean playerOneHasNoStones = true;
+        boolean playerTwoHasNoStones = true;
+        for (int pitId : playerOne.getOwnedPits()) {
+            Pit pit = board.getPit(pitId);
+            if (pit.getStones() != 0) {
+                playerOneHasNoStones = false;
             }
-            currentPit = currentPit.getNextPit();
-        } while (!Objects.equals(currentPit, initialPit));
+        }
+        for (int pitId : playerTwo.getOwnedPits()) {
+            Pit pit = board.getPit(pitId);
+            if (pit.getStones() != 0) {
+                playerTwoHasNoStones = false;
+            }
+        }
 
+        if (playerOneHasNoStones || playerTwoHasNoStones) {
+            System.out.println("GAME HAS ENDED");
+            board.collectRemainingStones();
+            return true;
+        }
 
-        System.out.println("GAME HAS ENDED");
-        board.collectRemainingStones();
-        return true;
+        return false;
     }
 
     public Player getPlayer(Integer playerId) {
