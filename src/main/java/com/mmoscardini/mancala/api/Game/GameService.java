@@ -1,4 +1,4 @@
-package com.mmoscardini.mancala.api.gameController;
+package com.mmoscardini.mancala.api.Game;
 
 import com.mmoscardini.mancala.core.board.Board;
 import com.mmoscardini.mancala.core.gameplayController.GameplayController;

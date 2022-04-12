@@ -1,9 +1,5 @@
-package com.mmoscardini.mancala.api.gameController;
+package com.mmoscardini.mancala.api.Game;
 
-import com.mmoscardini.mancala.core.board.Board;
-import com.mmoscardini.mancala.core.gameplayController.GameplayController;
-import com.mmoscardini.mancala.core.gameplayController.GameplayControllerSingletonFactory;
-import com.mmoscardini.mancala.core.pit.Pit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

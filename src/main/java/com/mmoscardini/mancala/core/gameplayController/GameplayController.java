@@ -25,7 +25,7 @@ public class GameplayController {
         this.gameId = gameId;
     }
 
-    public void setup(Player playerOne, Player playerTwo, Integer stones) {
+    public  void setup(Player playerOne, Player playerTwo, Integer stones) {
         currentPlayer = playerOne;
         board = new Board(playerOne, playerTwo, stones);
 
