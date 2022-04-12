@@ -37,6 +37,10 @@ table.board {
 <body>
 <h1>Mankala game <span th:text="${gameId}"></span></h1>
 
+<br/>
+<h2> Current Player: <span th:text="${current_player.name}"></span></h2>
+<br/>
+
 <table class="board">
     <tr  class="pitrow">
         <td class="bigpit" rowspan="2">
@@ -61,6 +65,17 @@ table.board {
         </td>
     </tr>
   </table>
+
+
+    <div th:if="${not #lists.isEmpty(actions_log)}">
+        <br/>
+        <table>
+            <tr th:each="log : ${actions_log}">
+                <td th:text="${log}"></td>
+            </tr>
+        </table>
+        <br/>
+    </div>
 
 
 

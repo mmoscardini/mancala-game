@@ -5,9 +5,9 @@ import com.mmoscardini.mancala.core.pit.Pit;
 import com.mmoscardini.mancala.core.player.Player;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 @Service
 public class GameplayController {
@@ -17,6 +17,7 @@ public class GameplayController {
     private Player playerTwo;
     private Player currentPlayer;
     private boolean setupCompleted = false;
+    private List<String> actionsLog;
 
     public GameplayController() {
     }
@@ -37,8 +38,9 @@ public class GameplayController {
             return;
         }
 
-        playerOne = generateRandomPlayer(1);
-        playerTwo = generateRandomPlayer(2);
+        playerOne = new Player(1, "Player 1");
+        playerTwo = new Player(2, "Player 2");
+        actionsLog = new ArrayList<>();
 
         setup(playerOne, playerTwo, 6);
     }
@@ -64,12 +66,14 @@ public class GameplayController {
         }
 
         if (shouldStealStones(currentPit)) {
-            System.out.println("STEALING STONES IN PIT " + currentPit.getId());
+            actionsLog.add(0, currentPlayer.getName().concat(" is stealing stones from pit").concat(pitId.toString()));
             board.stealOpositeStones(currentPlayer, currentPit);
         }
 
         if (!isCurrentPlayerBigPit(currentPit)) {
             passTheTurn();
+        } else {
+            actionsLog.add(0, currentPlayer.getName().concat(" last stone was placed on his big pit! Play again!"));
         }
 
         return board;
@@ -77,6 +81,14 @@ public class GameplayController {
 
     public Board getBoard() {
         return board;
+    }
+
+    public List<String> getActionsLog() {
+        return actionsLog;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public boolean hasGameEnded() {
@@ -124,29 +136,19 @@ public class GameplayController {
         return pit.isBigPit() && pit.getOwner() != currentPlayer;
     }
 
-    private boolean isValidPit(Integer pitId){
-        if (!currentPlayer.getOwnedPits().contains(pitId)){
-            System.out.println("Player ".concat(currentPlayer.getName()).concat("Cannot choose this pit"));
+    private boolean isValidPit(Integer pitId) {
+        if (!currentPlayer.getOwnedPits().contains(pitId)) {
+            actionsLog.add(0, "Current player do not own this pit. Please choose another one.");
             return false;
         }
 
         Integer stones = board.getPit(pitId).getStones();
 
         if (stones == 0) {
-            System.out.println("Cannot pick stones from empty pit");
+            actionsLog.add(0, "Cannot pick stones from empty pit. Please choose another one.");
             return false;
         }
 
         return true;
-    }
-
-    private Player generateRandomPlayer(Integer playerId) {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-
-        String playerName = "player_" + generatedString;
-
-        return new Player(playerId, playerName);
     }
 }

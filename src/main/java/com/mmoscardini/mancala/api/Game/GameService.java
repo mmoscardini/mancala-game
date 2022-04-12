@@ -38,16 +38,27 @@ public class GameService {
         model.addAttribute("p2_pits", p2Pits);
         model.addAttribute("p1_bigpit", board.getBigPit(1));
         model.addAttribute("p2_bigpit", board.getBigPit(2));
+
+        model.addAttribute("current_player", gameplayController.getCurrentPlayer());
+
+        model.addAttribute("actions_log", gameplayController.getActionsLog());
     }
 
     private void buildEngGameModel(GameplayController gameplayController, Model model) {
         model.addAttribute("winner", "player1");
         model.addAttribute("player1", gameplayController.getPlayer(1));
         model.addAttribute("player2", gameplayController.getPlayer(2));
+        model.addAttribute("player1_count", gameplayController.getPlayer(1).getBigPit().getStones());
+        model.addAttribute("player2_count", gameplayController.getPlayer(2).getBigPit().getStones());
     }
 
     public void setupGame(String gameId) {
         GameplayController gameplayController = GameplayControllerSingletonFactory.getGameplayController(gameId);
         gameplayController.defaultSetup();
+    }
+
+    public void resetErrors(String gameId) {
+        GameplayController gameplayController = GameplayControllerSingletonFactory.getGameplayController(gameId);
+        gameplayController.resetErrors();
     }
 }
