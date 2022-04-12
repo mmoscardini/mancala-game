@@ -45,7 +45,7 @@ public class GameService {
     }
 
     private void buildEngGameModel(GameplayController gameplayController, Model model) {
-        model.addAttribute("winner", "player1");
+        model.addAttribute("winner", gameplayController.getWinner());
         model.addAttribute("player1", gameplayController.getPlayer(1));
         model.addAttribute("player2", gameplayController.getPlayer(2));
         model.addAttribute("player1_count", gameplayController.getPlayer(1).getBigPit().getStones());

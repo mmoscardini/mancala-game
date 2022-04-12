@@ -1,10 +1,17 @@
 <html>
 <head><title>Mmoscardini Mancala Game - end game</title></head>
 <body>
-<h1>END GAME</h1>
-<!--<h1><span th:text="${winner.name}"/> has won!!</h1>-->
+<div th:if="${winner != null}">
+    <h1><span th:text="${winner.name}"/> has won!!</h1>
+</div>
 
-<!--<h2>Player One has <span th:text="${player1.stones}"/> stones</h2>-->
-<!--<h2>Player Two has <span th:text="${player2.stones}"/> stones</h2>-->
+<div th:if="${winner == null}">
+    <h1>Is was a tie!</h1>
+</div>
+
+<h2>Player One has <span th:text="${player1.stonesCount}"/> stones</h2>
+<h2>Player Two has <span th:text="${player2.stonesCount}"/> stones</h2>
+
+<a th:href="@{/game/mySeccondGame/}">Start new game</a>
 </body>
 </html>

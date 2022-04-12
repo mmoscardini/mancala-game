@@ -38,7 +38,7 @@ public class Player {
         return name;
     }
 
-    public Integer getStones() {
+    public Integer getStonesCount() {
         return this.bigPit.getStones();
     }
 

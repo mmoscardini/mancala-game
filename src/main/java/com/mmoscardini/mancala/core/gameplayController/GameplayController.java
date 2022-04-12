@@ -42,7 +42,7 @@ public class GameplayController {
         playerTwo = new Player(2, "Player 2");
         actionsLog = new ArrayList<>();
 
-        setup(playerOne, playerTwo, 1);
+        setup(playerOne, playerTwo, 6);
     }
 
     public Board makeMove(Integer pitId) {
@@ -154,5 +154,14 @@ public class GameplayController {
         }
 
         return true;
+    }
+
+    public Player getWinner() {
+        if (playerOne.getStonesCount() == playerTwo.getStonesCount()) {
+            return  null;
+        } else if (playerOne.getStonesCount() > playerTwo.getStonesCount()) {
+            return playerOne;
+        }
+        return playerTwo;
     }
 }
